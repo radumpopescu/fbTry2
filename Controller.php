@@ -19,11 +19,14 @@ class Controller
 
     public function defaultAction()
     {
-        $posts = Post::getAll();
-
+        $user = null;
+        if (isset($_COOKIE['user'])){
+            $user = new User($_COOKIE['user']);
+        }
         echo $this->twig->render('index.html.twig', [
+            'currentUser' => $user,
             'users' => User::getAll(),
-            'posts' => $posts
+            'posts' => Post::getAll()
         ]);
     }
 

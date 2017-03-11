@@ -149,6 +149,11 @@ h6, .h6 {
     color: #999;
 }
 
+.blog-post textarea{
+    width: 100%;
+    height: 10em;
+}
+
 
 /*
  * Footer
@@ -164,3 +169,4 @@ h6, .h6 {
 .blog-footer p:last-child {
     margin-bottom: 0;
 }
+

@@ -21,11 +21,24 @@
 <div class="blog-masthead">
     <div class="container">
         <nav class="nav blog-nav">
-            {#<a class="nav-link active" href="#">Home</a>#}
-            {#<a class="nav-link" href="#">New features</a>#}
-            {#<a class="nav-link" href="#">Press</a>#}
-            {#<a class="nav-link" href="#">New hires</a>#}
-            {#<a class="nav-link" href="#">About</a>#}
+            {% if currentUser %}
+                <span class="nav-link" href="#">Welcome {{ currentUser.name }}</span>
+            {% endif %}
+            <div class="nav-link dropdown pull-right">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Change user
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu user-choice" aria-labelledby="dropdownMenu1">
+                    {% for user in users %}
+                        <li><a data-id="{{ user.id }}" href="#">{{ user.name }} ({{ user.group }})</a></li>
+                    {% endfor %}
+                    {#<li><a href="#">Another action</a></li>#}
+                    {#<li><a href="#">Something else here</a></li>#}
+                    {#<li role="separator" class="divider"></li>#}
+                    {#<li><a href="#">Separated link</a></li>#}
+                </ul>
+            </div>
         </nav>
     </div>
 </div>
@@ -42,10 +55,14 @@
     <div class="row">
 
         <div class="col-sm-8 blog-main">
-
-            {% for post in posts %}
-                {% include 'post.html.twig' with {'post': post} %}
-            {% endfor %}
+            {% if currentUser %}
+                {% include 'newPost.html.twig' %}
+                {% for post in posts %}
+                    {% include 'post.html.twig' with {'post': post} %}
+                {% endfor %}
+            {% else %}
+                <h3 class="blog-title">Please select a user first</h3>
+            {% endif %}
 
 
         </div><!-- /.blog-main -->
@@ -66,8 +83,10 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script>window.jQuery || document.write('<script src="/bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/script/js.js"></script>
+
 </body>
 </html>

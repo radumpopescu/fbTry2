@@ -1,0 +1,21 @@
+{
+  "name": "interview",
+  "homepage": "https://github.com/radumpopescu/fbTry2",
+  "authors": [
+    "Radu Popescu <radumihailpopescu@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

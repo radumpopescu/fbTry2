@@ -1,7 +1,8 @@
 {
     "name": "radu/www",
     "require": {
-        "usmanhalalit/pixie": "^2.0"
+        "usmanhalalit/pixie": "^2.0",
+        "twig/twig": "^1.0"
     },
     "authors": [
         {

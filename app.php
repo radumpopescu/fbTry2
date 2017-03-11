@@ -1,26 +1,35 @@
 <?php
 require "load.php";
 
+$page = "";
+if (isset($_GET['page'])){
+    $page = $_GET['page'];
+}
+switch ($page){
+    case "users":
+        if (!isset($_GET['group'])){
+            die("Please specify group");
+        }
+        $users = [];
+        foreach (User::getAllByGroup($_GET['group']) as $user){
+            $users[] = $user->toArray();
+        }
+        echo json_encode($users);
+        break;
+    case "post":
+        if (!isset($_POST["content"])){
+            die("No content defined");
+        }
+        if (!isset($_POST["user"])){
+            die("User not defined");
+        }
+        $post = new Post();
+        $post->setContent($_POST['content'])->setUser($_POST['user'])->save();
 
-echo $twig->render('index.html.twig', array('name' => 'Fabien'));
+}
 
 
-//$loader = new Twig_Loader_Array(array(
-//    'index' => 'Hello {{ name }}!',
-//));
-//$twig = new Twig_Environment($loader);
-//
-//echo $twig->render('index', array('name' => 'Fabien'));
+//echo $twig->render('index.html.twig', array('name' => 'Fabien'));
 
-//var_dump("A");
-//$u = new User(1);
-//$u->setName("Will Smith");
-//$u->save();
-//echo $u;
 
-//$p = new Post(1,[
-//    "content"=>"WW",
-//    "user" => 1,
-//    "added"=>"2313"
-//]);
-//echo $p;
+

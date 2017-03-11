@@ -41,7 +41,6 @@ class Controller
     {
         $user = $this->getLoggedUser();
         $posts = [];
-        $user = new User(1);
         if (isset($_GET['search'])) {
             $posts = PostFactory::filterAllByGroup($user->getGroup(), $_GET['search']);
         } else {

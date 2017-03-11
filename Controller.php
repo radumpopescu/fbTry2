@@ -35,11 +35,11 @@ class Controller
         if (!isset($_POST["content"])){
             die("No content defined");
         }
-        if (!isset($_POST["user"])){
-            die("User not defined");
+        if (!isset($_COOKIE["user"])){
+            die("User not logged in");
         }
         $post = new Post();
-        $post->setContent($_POST['content'])->setUser($_POST['user'])->save();
+        $post->setContent($_POST['content'])->setUser($_COOKIE['user'])->save();
         echo json_encode($post->toArray());
 //        $twig->render('index.html.twig', $post->toArray());
     }

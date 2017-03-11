@@ -3,3 +3,18 @@ $( ".user-choice a" ).click(function(el) {
     document.cookie = "user="+userId;
     location.reload();
 });
+
+$( "#post-button" ).click(function(el) {
+    var data = {
+        "content": $("#postText").val()
+    }
+    $.ajax({
+        type: "POST",
+        url: "/?page=post",
+        data: data,
+        success: function(){
+            location.reload();
+        }
+    });
+});
+

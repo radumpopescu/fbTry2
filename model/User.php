@@ -25,6 +25,18 @@ class User extends Model
         ];
     }
 
+
+    public static function getAll()
+    {
+        $users = [];
+        $query = QB::table('user')->select("*");
+        $results = $query->get();
+        foreach ($results as $r){
+            $users[] = new self($r->id, $r);
+        }
+        return $users;
+    }
+
     public static function getAllByGroup($groupId)
     {
         $users = [];

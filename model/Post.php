@@ -8,7 +8,7 @@ class Post extends Model
     private $user;
     private $added;
 
-    protected function load($id, $data)
+    protected function load($id, $data = [])
     {
         if (!$this->checkValidData($data)){
             $data = QB::table('post')->find($id);
@@ -111,6 +111,7 @@ class Post extends Model
 
         if (is_null($this->id)){
             $this->id = QB::table('post')->insert($data);
+            $this->load($this->id);
         }else{
             QB::table('post')->where('id', $this->id)->update($data);
 

@@ -7,11 +7,15 @@ if (isset($_GET['page'])){
 }
 switch ($page){
     case "users":
-        if (!isset($_GET['group'])){
-            die("Please specify group");
+        $userObjects = [];
+        if (isset($_GET['group'])){
+            $userObjects = User::getAllByGroup($_GET['group']);
+        }
+        else{
+            $userObjects = User::getAll();
         }
         $users = [];
-        foreach (User::getAllByGroup($_GET['group']) as $user){
+        foreach ($userObjects as $user){
             $users[] = $user->toArray();
         }
         echo json_encode($users);

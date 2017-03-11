@@ -15,9 +15,9 @@ class Post extends Model
         }
 
         $this->id       = $id;
-        $this->content  = $data['content'];
-        $this->user     = $data['user'];
-        $this->added    = $data['added'];
+        $this->content  = $data->content;
+        $this->user     = $data->user;
+        $this->added    = $data->added;
     }
 
     protected function getRequiredFields()
@@ -29,8 +29,7 @@ class Post extends Model
         ];
     }
 
-
-    public static function getAll()
+    public static function getAllByGroup($groupId)
     {
         $rows = QB::table('post')->findAll;
     }
@@ -87,28 +86,33 @@ class Post extends Model
         return $this->added;
     }
 
+    public function toArray()
+    {
+        return [
+            "id"        =>  $this->id,
+            "content"   =>  $this->content,
+            "user"      =>  $this->user,
+            "added"     =>  $this->added
+        ];
+    }
+
     function __toString()
     {
-        return json_encode([
-            "id"    =>  $this->id,
-            "content"  =>  $this->content,
-            "user" =>  $this->user,
-            "added" =>  $this->added
-        ]);
+        return json_encode($this->toArray());
     }
 
 
     public function save()
     {
-        $data = array(
-            'name'  => $this->name,
-            'group' => $this->group
-        );
+        $data = [
+            "content"   =>  $this->content,
+            "user"      =>  $this->user
+        ];
 
         if (is_null($this->id)){
-            $this->id = QB::table('user')->insert($data);
+            $this->id = QB::table('post')->insert($data);
         }else{
-            QB::table('user')->where('id', $this->id)->update($data);
+            QB::table('post')->where('id', $this->id)->update($data);
 
         }
     }

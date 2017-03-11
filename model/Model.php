@@ -20,6 +20,7 @@ abstract class Model
     }
 
     protected abstract function load($id, $data);
-    public abstract function save();
     protected abstract function getRequiredFields();
+    public abstract function toArray();
+    public abstract function save();
 }

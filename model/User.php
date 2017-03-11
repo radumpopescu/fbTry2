@@ -13,8 +13,8 @@ class User extends Model
         }
 
         $this->id       = $id;
-        $this->name     = $data['name'];
-        $this->group    = $data['group'];
+        $this->name     = $data->name;
+        $this->group    = $data->group;
     }
 
     protected function getRequiredFields()
@@ -25,6 +25,16 @@ class User extends Model
         ];
     }
 
+    public static function getAllByGroup($groupId)
+    {
+        $users = [];
+        $query = QB::table('user')->where('group', '=', $groupId);
+        $results = $query->get();
+        foreach ($results as $r){
+            $users[] = new self($r->id, $r);
+        }
+        return $users;
+    }
 
     public function getId()
     {
@@ -56,22 +66,25 @@ class User extends Model
         $this->group = $group;
     }
 
-    function __toString()
-    {
-        return json_encode([
-            "id"=>$this->id,
-            "name"=>$this->name,
-            "group"=>$this->group
-        ]);
+    function toArray(){
+        return [
+            "id"    =>  $this->id,
+            "name"  =>  $this->name,
+            "group" =>  $this->group
+        ];
     }
 
+    function __toString()
+    {
+        return json_encode($this->toArray());
+    }
 
     public function save()
     {
-        $data = array(
-            'name'  => $this->name,
-            'group' => $this->group
-        );
+        $data = [
+            "name"  =>  $this->name,
+            "group" =>  $this->group
+        ];
 
         if (is_null($this->id)){
             $this->id = QB::table('user')->insert($data);
@@ -80,6 +93,4 @@ class User extends Model
 
         }
     }
-
-
 }

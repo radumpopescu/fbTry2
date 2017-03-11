@@ -18,3 +18,24 @@ $( "#post-button" ).click(function(el) {
     });
 });
 
+
+$("#search-term").keyup(function(el) {
+    var term = $("#search-term").val();
+    search(term);
+});
+
+function search(term){
+    var data = {
+        "page": "search",
+        "search": term
+    }
+    $.ajax({
+        type: "GET",
+        url: "/",
+        data: data,
+        success: function(data){
+            $("#the-posts").html(data);
+        }
+    });
+}
+

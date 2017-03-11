@@ -6,6 +6,7 @@ require "vendor/autoload.php";
 require "model/Model.php";
 require "model/User.php";
 require "model/Post.php";
+require "model/PostFactory.php";
 require "Controller.php";
 
 $dbConfig = array(

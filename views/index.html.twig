@@ -21,9 +21,6 @@
 <div class="blog-masthead">
     <div class="container">
         <nav class="nav blog-nav">
-            {% if currentUser %}
-                <span class="nav-link" href="#">Welcome {{ currentUser.name }}</span>
-            {% endif %}
             <div class="nav-link dropdown pull-right">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     Change user
@@ -31,10 +28,16 @@
                 </button>
                 <ul class="dropdown-menu user-choice" aria-labelledby="dropdownMenu1">
                     {% for user in users %}
-                        <li><a data-id="{{ user.id }}" href="#">{{ user.name }} ({{ user.group }})</a></li>
+                        <li><a data-id="{{ user.id }}" href="#">{{ user.name }} (Group {{ user.group }})</a></li>
                     {% endfor %}
                 </ul>
             </div>
+            {% if currentUser %}
+                <div class="nav-link pull-left">
+                    <input type="text" class="form-control" id="search-term" placeholder="Search">
+                </div>
+                <span class="nav-link pull-right" href="#">Welcome {{ currentUser.name }}</span>
+            {% endif %}
         </nav>
     </div>
 </div>
@@ -53,12 +56,9 @@
         <div class="col-sm-8 blog-main">
             {% if currentUser %}
                 {% include 'newPost.html.twig' %}
-                {% if posts is empty %}
-                    <h6 class="blog-description">No posts yet</h6>
-                {% endif %}
-                {% for post in posts %}
-                    {% include 'post.html.twig' with {'post': post} %}
-                {% endfor %}
+                <div id="the-posts">
+                    {% include 'posts.html.twig' %}
+                </div>
             {% else %}
                 <h4 class="blog-description">Please select a user first</h4>
             {% endif %}
@@ -85,7 +85,7 @@
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/script/js.js"></script>
+<script src="/script/js.js?aaa"></script>
 
 </body>
 </html>

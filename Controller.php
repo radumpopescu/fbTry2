@@ -19,19 +19,34 @@ class Controller
 
     public function defaultAction()
     {
-        $user = null;
-        if (isset($_COOKIE['user'])){
-            $user = new User($_COOKIE['user']);
-        }
+        $user = $this->getLoggedUser();
+
         $data = [
             'currentUser' => $user,
             'users' => User::getAll(),
         ];
         if ($user){
-            $data['posts'] = Post::getAllByGroup($user->getGroup());
+            $data['posts'] = PostFactory::getAllByGroup($user->getGroup());
         }
 
         echo $this->twig->render('index.html.twig', $data);
+    }
+
+    public function searchAction()
+    {
+        $user = $this->getLoggedUser();
+        $posts = [];
+        $user = new User(1);
+        if (isset($_GET['search'])){
+            $posts = PostFactory::filterAllByGroup($user->getGroup(), $_GET['search']);
+//            echo $this->getJsonResponse($posts);
+        }else{
+            $posts = PostFactory::getAllByGroup($user->getGroup());
+        }
+        echo $this->twig->render('posts.html.twig', [
+            "posts" => $posts,
+            "search" => isset($_GET['search']) ? $_GET['search'] : ""
+        ]);
     }
 
     public function postAction()
@@ -62,7 +77,7 @@ class Controller
     }
 
 
-    function getJsonResponse($objects){
+    private function getJsonResponse($objects){
         $arr = [];
         foreach ($objects as $obj){
             $arr[] = $obj->toArray();
@@ -70,4 +85,19 @@ class Controller
 
         return json_encode($arr);
     }
+
+    /**
+     * @return null|User
+     */
+    private function getLoggedUser()
+    {
+        $user = null;
+        if (isset($_COOKIE['user'])) {
+            $user = new User($_COOKIE['user']);
+            return $user;
+        }
+        return $user;
+    }
+
+
 }

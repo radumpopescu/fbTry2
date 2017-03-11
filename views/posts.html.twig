@@ -1,0 +1,10 @@
+{% if posts is empty %}
+    {% if search %}
+        <h6 class="blog-description">No posts found containing <small>{{ search }}</small></h6>
+    {% else %}
+        <h6 class="blog-description">No posts yet</h6>
+    {% endif %}
+{% endif %}
+{% for post in posts %}
+    {% include 'post.html.twig' with {'post': post} %}
+{% endfor %}

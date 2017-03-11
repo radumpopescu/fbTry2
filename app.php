@@ -1,9 +1,5 @@
 <?php
-require "vendor/autoload.php";
-require "config.php";
-require "model/Model.php";
-require "model/User.php";
-require "model/Post.php";
+require "load.php";
 
 
 echo $twig->render('index.html.twig', array('name' => 'Fabien'));

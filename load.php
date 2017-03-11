@@ -1,4 +1,11 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require "vendor/autoload.php";
+require "model/Model.php";
+require "model/User.php";
+require "model/Post.php";
 
 $dbConfig = array(
     'driver'    => 'mysql', // Db driver

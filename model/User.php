@@ -29,7 +29,9 @@ class User extends Model
     public static function getAll()
     {
         $users = [];
-        $query = QB::table('user')->select("*");
+        $query = QB::table('user')
+            ->orderBy('group', 'ASC')
+            ->select("*");
         $results = $query->get();
         foreach ($results as $r){
             $users[] = new self($r->id, $r);

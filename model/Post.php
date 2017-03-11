@@ -6,7 +6,7 @@ class Post extends Model
     private $id;
     private $content;
     private $user;
-    private $added;
+    private $created;
 
     protected function load($id, $data = [])
     {
@@ -16,8 +16,8 @@ class Post extends Model
 
         $this->id       = $id;
         $this->content  = $data->content;
-        $this->user     = $data->user;
-        $this->added    = $data->added;
+        $this->user     = new User($data->user);
+        $this->created  = $data->created;
     }
 
     protected function getRequiredFields()
@@ -25,14 +25,33 @@ class Post extends Model
         return [
             'content',
             'user',
-            'added'
+            'created'
         ];
     }
 
     public static function getAll()
     {
         $posts = [];
-        $query = QB::table('post')->select("*");
+        $query = QB::table('post')
+            ->join('user', 'user.id', '=', 'post.user')
+            ->orderBy('created', 'DESC')
+            ->select(["post.*", "user.name"]);
+        $results = $query->get();
+        var_dump($results);die;
+        foreach ($results as $r){
+            $posts[] = new self($r->id, $r);
+        }
+        return $posts;
+    }
+
+    public static function getAllByGroup($group)
+    {
+        $posts = [];
+        $query = QB::table('post')
+            ->join('user', 'user.id', '=', 'post.user')
+            ->where('user.group', '=', $group)
+            ->orderBy('created', 'DESC')
+            ->select(["post.*", "user.name"]);
         $results = $query->get();
         foreach ($results as $r){
             $posts[] = new self($r->id, $r);
@@ -87,9 +106,9 @@ class Post extends Model
     /**
      * @return mixed
      */
-    public function getAdded()
+    public function getCreated()
     {
-        return $this->added;
+        return $this->created;
     }
 
     public function toArray()
@@ -98,7 +117,7 @@ class Post extends Model
             "id"        =>  $this->id,
             "content"   =>  $this->content,
             "user"      =>  $this->user,
-            "added"     =>  $this->added
+            "created"     =>  $this->created
         ];
     }
 

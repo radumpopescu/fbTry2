@@ -1,5 +1,5 @@
 <div class="blog-post">
     {#<h2 class="blog-post-title">Sample post</h2>#}
-    <p class="blog-post-meta">{{ post.added }} by <a href="#">{{ post.user }}</a></p>
+    <p class="blog-post-meta">{{ post.created | timeago }} by <a href="#">{{ post.user.name }}</a></p>
     <p>{{ post.content }}</p>
 </div><!-- /.blog-post -->

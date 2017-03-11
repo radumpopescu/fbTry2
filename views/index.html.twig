@@ -53,11 +53,14 @@
         <div class="col-sm-8 blog-main">
             {% if currentUser %}
                 {% include 'newPost.html.twig' %}
+                {% if posts is empty %}
+                    <h6 class="blog-description">No posts yet</h6>
+                {% endif %}
                 {% for post in posts %}
                     {% include 'post.html.twig' with {'post': post} %}
                 {% endfor %}
             {% else %}
-                <h3 class="blog-title">Please select a user first</h3>
+                <h4 class="blog-description">Please select a user first</h4>
             {% endif %}
 
 

@@ -23,11 +23,15 @@ class Controller
         if (isset($_COOKIE['user'])){
             $user = new User($_COOKIE['user']);
         }
-        echo $this->twig->render('index.html.twig', [
+        $data = [
             'currentUser' => $user,
             'users' => User::getAll(),
-            'posts' => Post::getAll()
-        ]);
+        ];
+        if ($user){
+            $data['posts'] = Post::getAllByGroup($user->getGroup());
+        }
+
+        echo $this->twig->render('index.html.twig', $data);
     }
 
     public function postAction()

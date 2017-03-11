@@ -8,13 +8,13 @@ class User extends Model
 
     protected function load($id, $data)
     {
-        if (!$this->checkValidData($data)){
+        if (!$this->checkValidData($data)) {
             $data = QB::table('user')->find($id);
         }
 
-        $this->id       = $id;
-        $this->name     = $data->name;
-        $this->group    = $data->group;
+        $this->id = $id;
+        $this->name = $data->name;
+        $this->group = $data->group;
     }
 
     protected function getRequiredFields()
@@ -23,31 +23,6 @@ class User extends Model
             'name',
             'group'
         ];
-    }
-
-
-    public static function getAll()
-    {
-        $users = [];
-        $query = QB::table('user')
-            ->orderBy('group', 'ASC')
-            ->select("*");
-        $results = $query->get();
-        foreach ($results as $r){
-            $users[] = new self($r->id, $r);
-        }
-        return $users;
-    }
-
-    public static function getAllByGroup($groupId)
-    {
-        $users = [];
-        $query = QB::table('user')->where('group', '=', $groupId);
-        $results = $query->get();
-        foreach ($results as $r){
-            $users[] = new self($r->id, $r);
-        }
-        return $users;
     }
 
     public function getId()
@@ -80,11 +55,12 @@ class User extends Model
         $this->group = $group;
     }
 
-    function toArray(){
+    function toArray()
+    {
         return [
-            "id"    =>  $this->id,
-            "name"  =>  $this->name,
-            "group" =>  $this->group
+            "id" => $this->id,
+            "name" => $this->name,
+            "group" => $this->group
         ];
     }
 
@@ -96,13 +72,14 @@ class User extends Model
     public function save()
     {
         $data = [
-            "name"  =>  $this->name,
-            "group" =>  $this->group
+            "name" => $this->name,
+            "group" => $this->group
         ];
 
-        if (is_null($this->id)){
+        // If id is not set, insert into DB
+        if (is_null($this->id)) {
             $this->id = QB::table('user')->insert($data);
-        }else{
+        } else {
             QB::table('user')->where('id', $this->id)->update($data);
 
         }

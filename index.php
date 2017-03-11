@@ -1,3 +1,4 @@
 <?php
+require "load.php";
 
-echo "Hello world";
+new Controller($twig);

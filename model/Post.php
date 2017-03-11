@@ -10,14 +10,14 @@ class Post extends Model
 
     protected function load($id, $data = [])
     {
-        if (!$this->checkValidData($data)){
+        if (!$this->checkValidData($data)) {
             $data = QB::table('post')->find($id);
         }
 
-        $this->id       = $id;
-        $this->content  = $data->content;
-        $this->user     = new User($data->user);
-        $this->created  = $data->created;
+        $this->id = $id;
+        $this->content = $data->content;
+        $this->user = new User($data->user);
+        $this->created = $data->created;
     }
 
     protected function getRequiredFields()
@@ -84,10 +84,10 @@ class Post extends Model
     public function toArray()
     {
         return [
-            "id"        =>  $this->id,
-            "content"   =>  $this->content,
-            "user"      =>  $this->user,
-            "created"     =>  $this->created
+            "id" => $this->id,
+            "content" => $this->content,
+            "user" => $this->user,
+            "created" => $this->created
         ];
     }
 
@@ -100,16 +100,16 @@ class Post extends Model
     public function save()
     {
         $data = [
-            "content"   =>  $this->content,
-            "user"      =>  $this->user
+            "content" => $this->content,
+            "user" => $this->user
         ];
 
-        if (is_null($this->id)){
+        // If id is not set, insert into DB
+        if (is_null($this->id)) {
             $this->id = QB::table('post')->insert($data);
             $this->load($this->id);
-        }else{
+        } else {
             QB::table('post')->where('id', $this->id)->update($data);
-
         }
     }
 

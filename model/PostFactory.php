@@ -2,6 +2,11 @@
 
 class PostFactory
 {
+    /**
+     * Returns all posts written by members of a specific group
+     * @param $group
+     * @return array
+     */
     public static function getAllByGroup($group)
     {
         $posts = [];
@@ -11,12 +16,17 @@ class PostFactory
             ->orderBy('created', 'DESC')
             ->select(["post.*", "user.name"]);
         $results = $query->get();
-        foreach ($results as $r){
+        foreach ($results as $r) {
             $posts[] = new Post($r->id, $r);
         }
         return $posts;
     }
 
+    /**
+     * Returns all posts written by members of a specific group containing search term
+     * @param $group
+     * @return array
+     */
     public static function filterAllByGroup($group, $search)
     {
         $posts = [];
@@ -27,7 +37,7 @@ class PostFactory
             ->orderBy('created', 'DESC')
             ->select(["post.*", "user.name"]);
         $results = $query->get();
-        foreach ($results as $r){
+        foreach ($results as $r) {
             $posts[] = new Post($r->id, $r);
         }
         return $posts;

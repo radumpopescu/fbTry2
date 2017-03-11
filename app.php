@@ -22,5 +22,9 @@ echo $twig->render('index.html.twig', array('name' => 'Fabien'));
 //$u->save();
 //echo $u;
 
-//$p = new Post(1);
+//$p = new Post(1,[
+//    "content"=>"WW",
+//    "user" => 1,
+//    "added"=>"2313"
+//]);
 //echo $p;

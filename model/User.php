@@ -6,14 +6,25 @@ class User extends Model
     private $name;
     private $group;
 
-    protected function load($id)
+    protected function load($id, $data)
     {
-        $row = QB::table('user')->find($id);
+        if (!$this->checkValidData($data)){
+            $data = QB::table('user')->find($id);
+        }
 
-        $this->id       = $row->id;
-        $this->name     = $row->name;
-        $this->group    = $row->group;
+        $this->id       = $id;
+        $this->name     = $data['name'];
+        $this->group    = $data['group'];
     }
+
+    protected function getRequiredFields()
+    {
+        return [
+            'name',
+            'group'
+        ];
+    }
+
 
     public function getId()
     {

@@ -2,19 +2,37 @@
 
 class Post extends Model
 {
+
     private $id;
     private $content;
     private $user;
     private $added;
 
-    protected function load($id)
+    protected function load($id, $data)
     {
-        $row = QB::table('post')->find($id);
+        if (!$this->checkValidData($data)){
+            $data = QB::table('post')->find($id);
+        }
 
-        $this->id       = $row->id;
-        $this->content  = $row->content;
-        $this->user     = $row->user;
-        $this->added    = $row->added;
+        $this->id       = $id;
+        $this->content  = $data['content'];
+        $this->user     = $data['user'];
+        $this->added    = $data['added'];
+    }
+
+    protected function getRequiredFields()
+    {
+        return [
+            'content',
+            'user',
+            'added'
+        ];
+    }
+
+
+    public static function getAll()
+    {
+        $rows = QB::table('post')->findAll;
     }
 
     /**

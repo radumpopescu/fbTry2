@@ -1,0 +1,12 @@
+{
+    "name": "radu/www",
+    "require": {
+        "usmanhalalit/pixie": "^2.0"
+    },
+    "authors": [
+        {
+            "name": "Radu Popescu",
+            "email": "radumihailpopescu@gmail.com"
+        }
+    ]
+}

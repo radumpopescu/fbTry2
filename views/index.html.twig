@@ -43,7 +43,10 @@
 
         <div class="col-sm-8 blog-main">
 
-            {% include 'post.html.twig' %}
+            {% for post in posts %}
+                {% include 'post.html.twig' with {'post': post} %}
+            {% endfor %}
+
 
         </div><!-- /.blog-main -->
 

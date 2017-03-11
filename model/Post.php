@@ -29,9 +29,15 @@ class Post extends Model
         ];
     }
 
-    public static function getAllByGroup($groupId)
+    public static function getAll()
     {
-        $rows = QB::table('post')->findAll;
+        $posts = [];
+        $query = QB::table('post')->select("*");
+        $results = $query->get();
+        foreach ($results as $r){
+            $posts[] = new self($r->id, $r);
+        }
+        return $posts;
     }
 
     /**

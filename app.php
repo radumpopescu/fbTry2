@@ -20,6 +20,7 @@ switch ($page){
         }
         echo json_encode($users);
         break;
+
     case "post":
         if (!isset($_POST["content"])){
             die("No content defined");
@@ -29,11 +30,21 @@ switch ($page){
         }
         $post = new Post();
         $post->setContent($_POST['content'])->setUser($_POST['user'])->save();
-
+        echo json_encode($post->toArray());
+//        $twig->render('index.html.twig', $post->toArray());
+        break;
+    default:
+        $posts = Post::getAll();
+        $postsArray = [];
+        foreach ($posts as $post){
+            $postsArray[] = $post->toArray();
+        }
+        echo $twig->render('index.html.twig', array('posts' => $postsArray));
+        break;
 }
 
 
-//echo $twig->render('index.html.twig', array('name' => 'Fabien'));
+
 
 
 

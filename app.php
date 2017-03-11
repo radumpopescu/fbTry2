@@ -1,6 +1,7 @@
 <?php
 require "vendor/autoload.php";
 require "config.php";
+require "model/Model.php";
 require "model/User.php";
 
 try{
@@ -9,8 +10,7 @@ try{
 catch(Exception $e){}
 
 
-
-
 $u = new User(1);
-var_dump($u);
-
+$u->setName("Will Smith");
+$u->save();
+echo $u;

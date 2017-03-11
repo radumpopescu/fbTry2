@@ -1,24 +1,18 @@
 <?php
 
-class User
+class User extends Model
 {
     private $id;
     private $name;
     private $group;
 
-    public function __construct($id = null)
-    {
-        if (!is_null(id)){
-            $this->load($id);
-        }
-    }
-
-    private function load($id)
+    protected function load($id)
     {
         $row = QB::table('user')->find($id);
-        $this->id = $row->id;
-        $this->name = $row->name;
-        $this->group = $row->group;
+
+        $this->id       = $row->id;
+        $this->name     = $row->name;
+        $this->group    = $row->group;
     }
 
     public function getId()
@@ -49,6 +43,31 @@ class User
     public function setGroup($group)
     {
         $this->group = $group;
+    }
+
+    function __toString()
+    {
+        return json_encode([
+            "id"=>$this->id,
+            "name"=>$this->name,
+            "group"=>$this->group
+        ]);
+    }
+
+
+    public function save()
+    {
+        $data = array(
+            'name'  => $this->name,
+            'group' => $this->group
+        );
+
+        if (is_null($this->id)){
+            $this->id = QB::table('user')->insert($data);
+        }else{
+            QB::table('user')->where('id', $this->id)->update($data);
+
+        }
     }
 
 
